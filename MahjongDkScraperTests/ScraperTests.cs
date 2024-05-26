@@ -1,12 +1,12 @@
 ﻿using FluentAssertions;
-using RatingListParser;
+using MahjongDkScraper;
 using Xunit;
 
 namespace RatingListParserTests;
-public class ParserTests
+public class ScraperTests
 {
     [Fact]
-    public async Task ShouldParseExample()
+    public async Task ShouldScrapeExample()
     {
         var expected = new[] {
             new Game(new DateOnly(2024, 5, 16), "202405160060", 2, new[] { new Player("Player1", -151), new Player("Player2", 92), new Player("Player3", 90), new Player("Player4", -31) }),
@@ -15,7 +15,7 @@ public class ParserTests
         };
 
         var example = File.ReadAllText("example.html");
-        var actual = await new MahjongDkHtmlParser().ParseGamesFromHtmlAsync(example);
+        var actual = await new MahjongDkHtmlScraper().ScrapeGamesFromHtmlAsync(example);
 
         actual.Should().BeEquivalentTo(expected);
     }

@@ -1,11 +1,11 @@
 ﻿using AngleSharp.Dom;
 using AngleSharp.Html.Parser;
 
-namespace RatingListParser;
+namespace MahjongDkScraper;
 
-public class MahjongDkHtmlParser
+public class MahjongDkHtmlScraper
 {
-    public async Task<IEnumerable<Game>> ParseGamesFromHtmlAsync(string html)
+    public async Task<IEnumerable<Game>> ScrapeGamesFromHtmlAsync(string html)
     {
         var parser = new HtmlParser();
         var doc = await parser.ParseDocumentAsync(html);

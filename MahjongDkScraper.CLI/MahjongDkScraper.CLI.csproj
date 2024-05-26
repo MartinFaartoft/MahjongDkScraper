@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RatingListParser\RatingListParser.csproj" />
+    <ProjectReference Include="..\MahjongDkScraper\MahjongDkScraper.csproj" />
   </ItemGroup>
 
 </Project>
