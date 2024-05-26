@@ -15,7 +15,7 @@ public class ParserTests
         };
 
         var example = File.ReadAllText("example.html");
-        var actual = await new Parser().ParseAsync(example);
+        var actual = await new MahjongDkHtmlParser().ParseGamesFromHtmlAsync(example);
 
         actual.Should().BeEquivalentTo(expected);
     }

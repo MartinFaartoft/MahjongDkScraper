@@ -3,9 +3,9 @@ using AngleSharp.Html.Parser;
 
 namespace RatingListParser;
 
-public class Parser
+public class MahjongDkHtmlParser
 {
-    public async Task<IEnumerable<Game>> ParseAsync(string html)
+    public async Task<IEnumerable<Game>> ParseGamesFromHtmlAsync(string html)
     {
         var parser = new HtmlParser();
         var doc = await parser.ParseDocumentAsync(html);
