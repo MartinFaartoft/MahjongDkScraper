@@ -1,3 +1,3 @@
-public record Game(DateOnly DateOfGame, string Id, int NumberOfWinds, IEnumerable<Player> Players);
+public record Game(DateOnly DateOfGame, string Id, int NumberOfWinds, decimal Difficulty, IEnumerable<Player> Players);
 
-public record Player(string Name, int Score);
+public record Player(string Name, int Score, decimal OldRating, decimal NewRating);

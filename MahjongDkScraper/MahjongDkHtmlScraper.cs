@@ -1,11 +1,17 @@
 ﻿using AngleSharp.Dom;
 using AngleSharp.Html.Parser;
+using System.Globalization;
 
 namespace MahjongDkScraper;
 
 public class MahjongDkHtmlScraper
 {
-    public async Task<IEnumerable<Game>> ScrapeGamesFromHtmlAsync(string html)
+
+	private static readonly int[] scoreIndices = [3, 6, 9, 12, 15, 18, 21];
+    private static readonly int[] oldRatingIndices = scoreIndices.Select(n => n + 1).ToArray();
+	private static readonly int[] newRatingIndices = scoreIndices.Select(n => n + 2).ToArray();
+
+	public async Task<IEnumerable<Game>> ScrapeGamesFromHtmlAsync(string html)
     {
         var parser = new HtmlParser();
         var doc = await parser.ParseDocumentAsync(html);
@@ -23,15 +29,20 @@ public class MahjongDkHtmlScraper
         var id = headers[1];
         var date = DateOnly.ParseExact(id[0..8], "yyyyMMdd");
         var numberOfWinds = int.Parse(scores[1]);
+        var difficulty = decimal.Parse(scores[2]);
 
         var playerNames = headers[2..];
-        
-        // skip TD's with old and new rating
-        var playerScoreIndexes = new int[] { 3, 6, 9, 12, 15, 18, 21 }.Take(playerNames.Length);
-        var playerScores = playerScoreIndexes.Select(i => int.Parse(scores[i])).ToArray();
 
-        var players = playerNames.Zip(playerScores, (first, second) => new Player(first, second)).ToArray();
+		// skip TD's with old and new rating
+		var playerScoreIndexes = scoreIndices.Take(playerNames.Length);
+        var playerOldRatingIndexes = oldRatingIndices.Take(playerNames.Length);
+		var playerNewRatingIndexes = newRatingIndices.Take(playerNames.Length);
+		var playerScores = playerScoreIndexes.Select(i => int.Parse(scores[i])).ToArray();
+        var playerOldRatings = playerOldRatingIndexes.Select(i => decimal.Parse(scores[i])).ToArray();
+		var playerNewRatings = playerNewRatingIndexes.Select(i => decimal.Parse(scores[i])).ToArray();
+
+        var players = playerNames.Select((n, i) => new Player(n, playerScores[i], playerOldRatings[i], playerNewRatings[i])).ToArray();
         
-        return new Game(date, id, numberOfWinds, players);
+        return new Game(date, id, numberOfWinds, difficulty, players);
     }
 }
