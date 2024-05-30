@@ -1,11 +1,14 @@
 ﻿using MahjongDkScraper;
+using System.Globalization;
 using System.Text.Json;
 
 internal class Program
 {
     private static async Task Main(string[] args)
     {
-        var mcrUrl = "http://labich.dk/mahjong/gamesmcr.php?length=long";
+		CultureInfo.CurrentCulture = new CultureInfo("da-DK", false);
+
+		var mcrUrl = "http://labich.dk/mahjong/gamesmcr.php?length=long";
         var riichiUrl = "http://labich.dk/mahjong/gamesriichi.php?length=long";
 
         await Scrape(mcrUrl, "data/mcr_games_full.json");
