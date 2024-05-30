@@ -1,0 +1,33 @@
+name: Rescrape Data
+
+on:
+  push:
+    branches: [ "main" ]
+  schedule:
+    - cron: "0 23 * * 5"
+
+jobs:
+  rescrape-data:
+
+    runs-on: ubuntu-latest
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the
+      # added or changed files to the repository.
+      contents: write
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: 8.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+    - name: Run scraper
+      run: dotnet run --project MahjongDkScraper.CLI
+    - uses: stefanzweifel/git-auto-commit-action@v5
+    
