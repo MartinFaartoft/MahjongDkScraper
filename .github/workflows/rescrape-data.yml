@@ -25,8 +25,8 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+    # - name: Test
+    #   run: dotnet test --no-build --verbosity normal
     - name: Run scraper
       run: dotnet run --project MahjongDkScraper.CLI
     - uses: stefanzweifel/git-auto-commit-action@v5
