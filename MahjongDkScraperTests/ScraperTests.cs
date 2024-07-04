@@ -3,11 +3,11 @@ using MahjongDkScraper;
 using System.Globalization;
 using Xunit;
 
-namespace RatingListParserTests;
+namespace MahjongDkScraperTests;
 public class ScraperTests
 {
     [Fact]
-    public async Task ShouldScrapeExample()
+    public async Task ShouldScrapeGamesExample()
     {
         CultureInfo.CurrentCulture = new CultureInfo("da-DK", false);
 
@@ -17,9 +17,16 @@ public class ScraperTests
             new Game(new DateOnly(2024, 5, 16), "202405160040", 3, 21.24M, new[] { new Player("Player9", 132, 76.92M, 79.13M), new Player("Player10", -97, -19.87M, -21.50M), new Player("Player11", 58, 60.08M, 60.79M), new Player("Player12", -34, -39.03M, -38.75M), new Player("Player13", -59, 28.09M, 26.52M) }),
         };
 
-        var example = File.ReadAllText("example.html");
+        var example = File.ReadAllText("games_example.html");
         var actual = await new MahjongDkHtmlScraper().ScrapeGamesFromHtmlAsync(example);
 
         actual.Should().BeEquivalentTo(expected);
     }
+
+    [Fact]
+    public async Task ShouldScrapeDivisionExample()
+    {
+		var example = File.ReadAllText("division_example.html");
+		var actual = await new MahjongDkHtmlScraper().ScrapeDivisionGamesFromHtmlAsync(example);
+	}
 }

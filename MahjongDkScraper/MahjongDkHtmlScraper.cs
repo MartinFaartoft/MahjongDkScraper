@@ -1,6 +1,5 @@
 ﻿using AngleSharp.Dom;
 using AngleSharp.Html.Parser;
-using System.Globalization;
 
 namespace MahjongDkScraper;
 
@@ -10,6 +9,21 @@ public class MahjongDkHtmlScraper
 	private static readonly int[] scoreIndices = [3, 6, 9, 12, 15, 18, 21];
     private static readonly int[] oldRatingIndices = scoreIndices.Select(n => n + 1).ToArray();
 	private static readonly int[] newRatingIndices = scoreIndices.Select(n => n + 2).ToArray();
+
+	public async Task<IEnumerable<DivisionGame>> ScrapeDivisionGamesFromHtmlAsync(string html)
+	{
+		var parser = new HtmlParser();
+		var doc = await parser.ParseDocumentAsync(html);
+        var divisionGames = doc.QuerySelectorAll("div[tabindex=0]").Chunk(2);
+
+        return divisionGames.Select(ParseDivisionChunk);
+	}
+
+	private DivisionGame ParseDivisionChunk(IElement[] divisionChunk)
+	{
+		// row 1 = heading
+        // row 2 = <br> separated list of games
+	}
 
 	public async Task<IEnumerable<Game>> ScrapeGamesFromHtmlAsync(string html)
     {
