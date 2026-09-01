@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MahjongDkScraper.CLI", "Mah
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MahjongDkScraper", "MahjongDkScraper\MahjongDkScraper.csproj", "{3AEC1997-97B8-4F9F-BC30-0C917A2DA63F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MahjongDkScraperTests", "MahjongDkScraperTests\MahjongDkScraperTests.csproj", "{C9B42DDF-A71B-41E5-B7D2-B73C89CC6DD8}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{3AEC1997-97B8-4F9F-BC30-0C917A2DA63F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3AEC1997-97B8-4F9F-BC30-0C917A2DA63F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3AEC1997-97B8-4F9F-BC30-0C917A2DA63F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C9B42DDF-A71B-41E5-B7D2-B73C89CC6DD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C9B42DDF-A71B-41E5-B7D2-B73C89CC6DD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C9B42DDF-A71B-41E5-B7D2-B73C89CC6DD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C9B42DDF-A71B-41E5-B7D2-B73C89CC6DD8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

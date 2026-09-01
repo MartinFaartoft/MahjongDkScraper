@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "MahjongDkScraper.CLI": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development"
+      }
+    }
+  }
+}

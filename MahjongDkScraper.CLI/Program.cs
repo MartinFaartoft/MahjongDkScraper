@@ -1,33 +1,27 @@
-﻿using MahjongDkScraper;
-using System.Globalization;
-using System.Text.Json;
+﻿using System.Text.Json;
+using Microsoft.Extensions.Hosting;
+
+namespace MahjongDkScraper.CLI;
 
 internal class Program
 {
     private static async Task Main(string[] args)
     {
-		CultureInfo.CurrentCulture = new CultureInfo("da-DK", false);
+        var builder = Host.CreateApplicationBuilder(args);
 
-		var mcrUrl = "http://labich.dk/mahjong/gamesmcr.php?length=long";
-        var riichiUrl = "http://labich.dk/mahjong/gamesriichi.php?length=long";
-
-        await Scrape(mcrUrl, "data/mcr_games_full.json");
-        await Scrape(riichiUrl, "data/riichi_games_full.json");
+        var connectionString = builder.Configuration["CONNECTION_STRING"] ?? throw new NullReferenceException("CONNECTION_STRING");
+        var extractor = new MahjongDkDbExtractor(connectionString);
+        
+        await Extract(Ruleset.Mcr, extractor, "data/mcr_games_full.json");
+        await Extract(Ruleset.Riichi, extractor, "data/riichi_games_full.json");
     }
-
-    private static async Task Scrape(string url, string filename)
+    
+    private static async Task Extract(Ruleset ruleset, MahjongDkDbExtractor extractor,  string filename)
     {
-        var httpClient = new HttpClient();
-        httpClient.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0"); // server returns HTTP 555 without 
-
-        var gamesHtml = await httpClient.GetStringAsync(url);
-
-        var scraper = new MahjongDkHtmlScraper();
-
-        var games = await scraper.ScrapeGamesFromHtmlAsync(gamesHtml);
-
+        
+        var games = (await extractor.ExtractGames(ruleset)).ToList();
         var json = JsonSerializer.Serialize(games);
-        Console.WriteLine($"downloaded and saved {games.Count()} from {url}");
+        Console.WriteLine($"downloaded and saved {games.Count} {ruleset} games");
         await File.WriteAllTextAsync(filename, json);
     }
 }
